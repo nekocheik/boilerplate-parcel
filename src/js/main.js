@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 
 
 //Color generation:
@@ -121,3 +122,5 @@ new scrollControlled( 0.2  , window.innerHeight , document.querySelector('main')
 // }
 
 // // export { draw } ;
+=======
+>>>>>>> cdece75dfabac0aa41a063270c0ecafd53a329c4
