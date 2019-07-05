@@ -18,7 +18,7 @@ function colorSet() {
   }
 }
 
-const body = document.querySelector('body');
+const body = document.querySelector('main');
 
 for (let i = 0; i < 100 ; i++) {
   let div = document.createElement('div');
@@ -27,6 +27,53 @@ for (let i = 0; i < 100 ; i++) {
 }
 
 
+require('./scrollToPluging');
+const gsap = require('gsap');
+const TweenMax = gsap.TweenMax;
+
+
+class scrollControlled {
+  constructor( scrollSpeed , pageLength , parent = document.querySelector('body').children[0] ){
+    this.scrollSpeed = scrollSpeed;
+    this.canWheel = true;
+    this.index = 1;
+    this.pageLength = pageLength ;
+    this.newPosition  = pageLength;
+    TweenMax.set( window ,{scrollTo: 0});
+    this.newPosition = null;
+    this.parent = parent ;
+    this.view();
+  }
+  
+  view(){
+
+    this.parent.addEventListener('mousewheel' , (e)=>{
+      this.scroll( Math.sign(e.deltaY) )
+      e.preventDefault(); 
+    });
+
+   }
+    
+  
+  scroll( direction ){
+
+    if( !this.canWheel || ( ( this.index <= 1 ) && !direction ) ){ return };
+    if ( direction > 0 ) {
+      this.index++;
+      this.newPosition += this.pageLength  ;
+    }else{
+      this.index--;
+      this.newPosition -= this.pageLength ; 
+    }
+    // console.log( this.newPosition , this.scrollSpeed  )
+    this.canWheel = false;
+    setTimeout(()=>{ this.canWheel = true },1000);
+    TweenMax.to( window , this.scrollSpeed ,{ scrollTo: this.newPosition , ease: Power3.easeOut});
+  }
+}
+
+
+new scrollControlled( 0.2  , window.innerHeight , document.querySelector('main') )
 
 
 
